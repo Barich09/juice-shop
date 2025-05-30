@@ -14,10 +14,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Generate CycloneDX SBOM
-        run: |
-          npm install -g @cyclonedx/bom
-          cyclonedx-bom -o bom.json
+      - name: Generate SBOM using CycloneDX
+        uses: CycloneDX/gh-node-module-generatebom@v1
+        with:
+          output: bom.json
 
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v3
