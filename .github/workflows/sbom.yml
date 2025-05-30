@@ -1,0 +1,26 @@
+name: Generate SBOM
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate CycloneDX SBOM
+        run: |
+          npm install -g @cyclonedx/bom
+          cyclonedx-bom -o bom.json
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: sbom
+          path: bom.json
